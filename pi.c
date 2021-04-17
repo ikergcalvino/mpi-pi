@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     double pi, h, sum, x;
 
     int k;
-    int numprocs, rank, recbuff;
+    int numprocs, rank, pirec;
 
     MPI_Status status;
 
@@ -43,17 +43,17 @@ int main(int argc, char *argv[])
             pi = h * sum;
         }
 
-        if (rank == 0)
+        if (rank > 0)
+        {
+            MPI_Send(&pi, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+        } else
         {
             for (k = 1; k < numprocs; k++)
             {
-                MPI_Recv(&recbuff, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-                pi += recbuff;
+                MPI_Recv(&pirec, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+                pi += pirec;
             }
             printf("pi is approximately %.16f, Error is %.16f\n", pi, fabs(pi - PI25DT));
-        } else
-        {
-            MPI_Send(&pi, 1, MPI_INT, 0, rank, MPI_COMM_WORLD);
         }
     }
     MPI_Finalize();
