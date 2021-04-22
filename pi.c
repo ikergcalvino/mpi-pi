@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
   
         h   = 1.0 / (double) n;
         sum = 0.0;
-        for (i = rank; i <= n; i += numprocs) {
+        for (i = rank + 1; i <= n; i += numprocs) {
             x = h * ((double)i - 0.5);
             sum += 4.0 / (1.0 + x*x);
         }
