@@ -38,10 +38,10 @@ int main(int argc, char *argv[])
         }
         pi = h * sum;
 
-        MPI_Reduce(&pirec, &pi, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&pi, &pirec, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
         if (rank == 0)
-            printf("pi is approximately %.16f, Error is %.16f\n", pi, fabs(pi - PI25DT));
+            printf("pi is approximately %.16f, Error is %.16f\n", pirec, fabs(pirec - PI25DT));
     }
     MPI_Finalize();
 }
