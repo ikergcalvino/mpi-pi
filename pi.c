@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
             printf("Enter the number of intervals: (0 quits) \n");
             scanf("%d",&n);
             for (k = 1; k < numprocs; k++)
-                MPI_Send(&n, 1, MPI_INT, k, 0, MPI_COMM_WORLD);
+                MPI_Send(&n, 1, MPI_INT, k, MPI_ANY_TAG, MPI_COMM_WORLD);
         } else
         {
             MPI_Recv(&n, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
@@ -43,12 +43,12 @@ int main(int argc, char *argv[])
 
         if (rank > 0)
         {
-            MPI_Send(&pi, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+            MPI_Send(&pi, 1, MPI_DOUBLE, 0, MPI_ANY_TAG, MPI_COMM_WORLD);
         } else
         {
             for (k = 1; k < numprocs; k++)
             {
-                MPI_Recv(&pirec, 1, MPI_DOUBLE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+                MPI_Recv(&pirec, 1, MPI_DOUBLE, k, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
                 pi += pirec;
             }
             printf("pi is approximately %.16f, Error is %.16f\n", pi, fabs(pi - PI25DT));
