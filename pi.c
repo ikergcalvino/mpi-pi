@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         {
             for (k = 1; k < numprocs; k++)
             {
-                MPI_Recv(&pirec, 1, MPI_DOUBLE, k, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+                MPI_Recv(&pirec, 1, MPI_DOUBLE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
                 pi += pirec;
             }
             printf("pi is approximately %.16f, Error is %.16f\n", pi, fabs(pi - PI25DT));
