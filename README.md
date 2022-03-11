@@ -9,7 +9,7 @@ intervalo [0, 1].
 
 ## Código secuencial
 Código secuencial: `pi.c`
-```
+``` c
 #include <stdio.h>
 #include <math.h>
 
